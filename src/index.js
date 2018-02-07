@@ -8,7 +8,7 @@ function component() {
   let client = new ApiClient();
 
   element.innerHTML = ["Hello", "webpack"].join(" ");
-  button.innerHTML = "HELLO";
+  button.innerHTML = "Get List";
   button.addEventListener("click", () => {
     client.getSpellsList().then((response) => {
         // console.log(JSON.parse(response));
@@ -22,11 +22,22 @@ function component() {
           let spellItem = document.createElement("li");
           let spellText = document.createTextNode(spell.name);
           spellItem.appendChild(spellText);
+
+          // spellItem.addEventListener("click", () => {
+          //   client.getSpecificSpell(spell.url).then((response) => {
+          //     let heading = document.createElement("h1");
+          //     heading.innerText = response.name;
+          //     let description = document.createElement("p");
+          //     description.innerText = response.desc;
+          //   })
+          // })
+
           listContainer.appendChild(spellItem);
         }
         document.body.appendChild(listContainer);
     })
   });
+  element.appendChild(document.createElement("br"));
   element.appendChild(button);
 
   return element;

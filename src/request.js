@@ -1,6 +1,15 @@
 export class ApiClient{
+    
     getSpellsList(){
         return makeRequest("spells");
+    }
+
+    getSpecificSpellWithID(spellIndex){
+        return makeRequest("spells/", spellIndex);
+    }
+
+    getSpecificSpellWithUrl(url){
+        return makeRequestWithUrl(url);
     }
 }
 
@@ -15,7 +24,19 @@ function makeRequest(endpoint, params = {}){
             encodeURIComponent(params[key]).join('&');
         })
     }
+    return new Promise((resolve, reject) => {
+        let xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if( this.readyState == 4 && this.status == 200){
+                resolve(JSON.parse(this.responseText));
+            }
+        };
+        xhttp.open("GET", uri, true);
+        xhttp.send();
+    });
+}
 
+function makeRequestWithUrl(uri){
     return new Promise((resolve, reject) => {
         let xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function() {
